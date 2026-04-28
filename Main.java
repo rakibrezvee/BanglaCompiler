@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Here is a test line of your Bangla programming language
+        
         String banglaCode = "shongkha a = 10 + 5;";
         
         System.out.println("Translating: " + banglaCode);
