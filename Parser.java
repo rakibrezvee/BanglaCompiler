@@ -32,7 +32,7 @@ public class Parser {
             
             
             if (pos >= tokens.size() || tokens.get(pos).type != Token.TokenType.IDENTIFIER) {
-                throw new RuntimeException("Syntax Error: Expected a variable name after '" + varType + "'");
+                throw new RuntimeException("সিনট্যাক্স এরর: '" + varType + "' এর পর একটি ভেরিয়েবল নাম প্রত্যাশিত");
             }
             
             String varName = tokens.get(pos).value;
@@ -48,20 +48,21 @@ public class Parser {
                 
                 
                 if (pos >= tokens.size() || tokens.get(pos).type != Token.TokenType.SEMICOLON) {
-                    throw new RuntimeException("Syntax Error: Missing semicolon ';' at the end of the line");
+                    throw new RuntimeException("সিনট্যাক্স এরর: লাইনের শেষে অনুপস্থিত সেমিকলন ';'");
+
                 }
                 pos++; 
             } else {
-                throw new RuntimeException("Syntax Error: Expected '=' after variable declaration");
+                throw new RuntimeException("সিনট্যাক্স এরর: ভেরিয়েবল ঘোষণার পর '=' প্রত্যাশিত");
             }
         } else {
-            throw new RuntimeException("Syntax Error: Unrecognized statement starting with '" + current.value + "'");
+            throw new RuntimeException("সিনট্যাক্স এরর: '" + current.value + "' দিয়ে শুরু হওয়া স্টেটমেন্ট স্বীকৃত নয়");
         }
     }
 
     private int parseExpression() {
         if (pos >= tokens.size() || tokens.get(pos).type != Token.TokenType.NUMBER) {
-            throw new RuntimeException("Syntax Error: Expected a number for math operation");
+            throw new RuntimeException("সিনট্যাক্স এরর: গাণিতিক অপারেশনের জন্য একটি সংখ্যা প্রত্যাশিত ছিল।");
         }
         
         int leftValue = Integer.parseInt(tokens.get(pos).value);
@@ -71,7 +72,7 @@ public class Parser {
         if (pos < tokens.size() && tokens.get(pos).type == Token.TokenType.PLUS) {
             pos++; 
             if (pos >= tokens.size() || tokens.get(pos).type != Token.TokenType.NUMBER) {
-                throw new RuntimeException("Syntax Error: Expected a number after '+'");
+                throw new RuntimeException("সিনট্যাক্স এরর: '+' এর পর একটি সংখ্যা প্রত্যাশিত");
             }
             int rightValue = Integer.parseInt(tokens.get(pos).value);
             pos++; 
