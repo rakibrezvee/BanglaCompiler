@@ -15,35 +15,35 @@ public class Lexer {
         while (pos < input.length()) {
             char c = input.charAt(pos);
             
-            
             if (Character.isWhitespace(c)) { 
                 pos++; 
                 continue; 
             }
             
-            
-            if (Character.isLetter(c)) {
-                String word = "";
-                while (pos < input.length() && Character.isLetterOrDigit(input.charAt(pos))) {
-                    word += input.charAt(pos++);
+            if (c >= '\u09E6' && c <= '\u09EF' || Character.isDigit(c)) {
+                StringBuilder num = new StringBuilder();
+                while (pos < input.length() && (isBanglaDigit(input.charAt(pos)) || Character.isDigit(input.charAt(pos)))) {
+                    num.append(input.charAt(pos++));
                 }
-                if (word.equals("shongkha") || word.equals("kotha")) {
-                    tokens.add(new Token(Token.TokenType.TYPE, word));
+                tokens.add(new Token(Token.TokenType.NUMBER, convertToEnglishDigits(num.toString())));
+                continue;
+            }
+
+            if (isBanglaLetter(c)) {
+                StringBuilder word = new StringBuilder();
+                while (pos < input.length() && (isBanglaLetter(input.charAt(pos)) || isBanglaDigit(input.charAt(pos)))) {
+                    word.append(input.charAt(pos++));
+                }
+                String finalWord = word.toString();
+                
+                if (finalWord.equals("\u09B8\u0982\u0996\u09CD\u09AF\u09BE") || 
+                    finalWord.equals("\u09A7\u09B0\u09BF")) {               
+                    tokens.add(new Token(Token.TokenType.TYPE, finalWord));
                 } else {
-                    tokens.add(new Token(Token.TokenType.IDENTIFIER, word));
+                    tokens.add(new Token(Token.TokenType.IDENTIFIER, finalWord));
                 }
                 continue;
             }
-            
-            if (Character.isDigit(c)) {
-                String num = "";
-                while (pos < input.length() && Character.isDigit(input.charAt(pos))) {
-                    num += input.charAt(pos++);
-                }
-                tokens.add(new Token(Token.TokenType.NUMBER, num));
-                continue;
-            }
-            
             
             if (c == '=') { tokens.add(new Token(Token.TokenType.ASSIGN, "=")); pos++; continue; }
             if (c == '+') { tokens.add(new Token(Token.TokenType.PLUS, "+")); pos++; continue; }
@@ -53,5 +53,25 @@ public class Lexer {
         }
         tokens.add(new Token(Token.TokenType.EOF, ""));
         return tokens;
+    }
+
+    private boolean isBanglaLetter(char c) {
+        return (c >= '\u0980' && c <= '\u09FF');
+    }
+
+    private boolean isBanglaDigit(char c) {
+        return (c >= '\u09E6' && c <= '\u09EF');
+    }
+
+    private String convertToEnglishDigits(String input) {
+        StringBuilder result = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            if (c >= '\u09E6' && c <= '\u09EF') {
+                result.append((char) (c - '\u09E6' + '0'));
+            } else {
+                result.append(c);
+            }
+        }
+        return result.toString();
     }
 }
