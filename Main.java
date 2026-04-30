@@ -36,7 +36,7 @@ public class Main {
             writer.flush();
             if (Desktop.isDesktopSupported()) Desktop.getDesktop().open(file);
         } catch (Exception ex) { 
-            ex.printStackTrace(); // ✅ FIXED: was e.printStackTrace()
+            ex.printStackTrace(); 
         }
     }
 }
