@@ -20,7 +20,7 @@ public class Lexer {
                 continue; 
             }
             
-            if (c >= '\u09E6' && c <= '\u09EF' || Character.isDigit(c)) {
+            if ((c >= '\u09E6' && c <= '\u09EF') || Character.isDigit(c)) {
                 StringBuilder num = new StringBuilder();
                 while (pos < input.length() && (isBanglaDigit(input.charAt(pos)) || Character.isDigit(input.charAt(pos)))) {
                     num.append(input.charAt(pos++));
@@ -45,9 +45,13 @@ public class Lexer {
                 continue;
             }
             
-            if (c == '=') { tokens.add(new Token(Token.TokenType.ASSIGN, "=")); pos++; continue; }
-            if (c == '+') { tokens.add(new Token(Token.TokenType.PLUS, "+")); pos++; continue; }
-            if (c == ';') { tokens.add(new Token(Token.TokenType.SEMICOLON, ";")); pos++; continue; }
+            // ✅ ASCII + Unicode lookalike variants all handled
+            if (c == '=')                      { tokens.add(new Token(Token.TokenType.ASSIGN,    "=")); pos++; continue; }
+            if (c == '+' || c == '\uFF0B')     { tokens.add(new Token(Token.TokenType.PLUS,      "+")); pos++; continue; }
+            if (c == '-' || c == '\u2212')     { tokens.add(new Token(Token.TokenType.MINUS,     "-")); pos++; continue; }
+            if (c == '*' || c == '\u00D7')     { tokens.add(new Token(Token.TokenType.MULTIPLY,  "*")); pos++; continue; }
+            if (c == '/' || c == '\u00F7')     { tokens.add(new Token(Token.TokenType.DIVIDE,    "/")); pos++; continue; }
+            if (c == ';' || c == '\uFF1B')     { tokens.add(new Token(Token.TokenType.SEMICOLON, ";")); pos++; continue; }
             
             pos++; 
         }
