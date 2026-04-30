@@ -45,7 +45,7 @@ public class Lexer {
                 continue;
             }
             
-            // ✅ ASCII + Unicode lookalike variants all handled
+            
             if (c == '=')                      { tokens.add(new Token(Token.TokenType.ASSIGN,    "=")); pos++; continue; }
             if (c == '+' || c == '\uFF0B')     { tokens.add(new Token(Token.TokenType.PLUS,      "+")); pos++; continue; }
             if (c == '-' || c == '\u2212')     { tokens.add(new Token(Token.TokenType.MINUS,     "-")); pos++; continue; }
