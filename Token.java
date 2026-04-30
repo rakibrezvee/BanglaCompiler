@@ -1,6 +1,6 @@
 public class Token {
     public enum TokenType { 
-        TYPE, IDENTIFIER, NUMBER, ASSIGN, PLUS, SEMICOLON, EOF 
+        TYPE, IDENTIFIER, NUMBER, ASSIGN, PLUS, MINUS, MULTIPLY, DIVIDE, SEMICOLON, EOF 
     }
     
     public TokenType type;
